@@ -8,6 +8,14 @@ if(file_exists('constants.php')) require_once 'constants.php';
 require_once 'adodb5/adodb.inc.php';
 require_once 'adodb5/adodb-exceptions.inc.php';
 
+// debug
+function prd($data) {
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+    die;
+}
+
 // Database connection
 try {
     $db = ADONewConnection(DB_DRIVER);
@@ -19,12 +27,15 @@ try {
 }
 
 // Include API classes
-include_once 'Api.php';
-include_once 'User.php';
-$user = new User();
-$api = new Api($user);
+include_once 'src/Api.php';
+include_once 'src/User.php';
+$user = new \Slimdwet\User($db);
+$api = new Api($db, $user);
 
 // Get the called method
 if(isset($_GET['method']) && method_exists($api, $_GET['method'])) {
     $api->$_GET['method']();
 } else exit("Invalid URL");
+
+// Close database connection
+$db->Close();
