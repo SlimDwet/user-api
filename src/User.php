@@ -46,7 +46,7 @@ class User {
     }
 
     /**
-     * Add an user
+     * Create an user
      * @param [string] $firstname [User's firstname]
      * @param [string] $lastname  [User's lastname]
      * @param [string] $birthday  [User's birthday]
@@ -80,9 +80,9 @@ class User {
     }
 
     /**
-     * Update the specified user's datas
+     * Update the specified user's data
      * @param  [string|int] $id    [User's ID]
-     * @param  [array] $datas [User new datas]
+     * @param  [array] $datas [User new data]
      * @return [null|boolean]        [description]
      */
     public function update_user($id = null, $datas = array()) {
@@ -91,7 +91,9 @@ class User {
 
             // Check if valid fields
             foreach ($datas as $field_name => $field_value) {
-                if(!in_array($field_name, array('firstname', 'lastname', 'email', 'birthday'))) return false;
+                if(!in_array($field_name, array('firstname', 'lastname', 'email', 'birthday'))) {
+                    unset($datas[$field_name]);
+                }
             }
 
             // Check if the specified user exists
@@ -116,7 +118,8 @@ class User {
 
             // Add modified date
             $datas['modified'] = date('Y-m-d H:i:s');
-            $update_result = $this->db->GetUpdateSQL($result_get_user, $datas);
+            $update_sql = $this->db->GetUpdateSQL($result_get_user, $datas);
+            $update_result = $this->db->Execute($update_sql);
             if(!$update_result) return false;
 
             return true;

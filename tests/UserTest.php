@@ -21,17 +21,21 @@ class UserTest extends PHPUnit_Framework_TestCase {
         }
     }
 
+    /**
+     * Unit test that checks the method which recovers data for the specified user
+     */
     public function testGetUser() {
         $user = new User($this->db);
         $this->assertEquals(null, $user->get_user("babar"));
         $this->assertEquals(null, $user->get_user('1" OR 1=1'));
         $this->assertEquals(null, $user->get_user("1' OR 1=1"));
-        // $this->assertEquals(true, $user->get_user("1"));
-        // $this->assertNotEmpty(true, $user->get_user(1));
         $this->assertEquals(false, $user->get_user('1 UNION SELECT * FROM `users` WHERE 1'));
         $this->assertEquals(false, $user->get_user('1 UNION SELECT * FROM users WHERE 1'));
     }
 
+    /**
+     * Unit test that checks the method which creates a user
+     */
     public function testAddUser() {
         $user = new User($this->db);
         $this->assertEquals(false, $user->add_user());
@@ -51,11 +55,14 @@ class UserTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(null, $user->add_user('Basile', 'Kévin', '1989-05-14', "'); TRUNCATE TABLE users; #'"));
     }
 
+    /**
+     * Unit test that checks the method which updates the specified user
+     */
     public function testUpdateUser(){
         $user = new User($this->db);
         $this->assertEquals(false, $user->update_user());
         $this->assertEquals(false, $user->update_user('bibi', array()));
-        $this->assertEquals(false, $user->update_user(1, array('lastname' => 'Duval', 'age' => 30)));
+        $this->assertEquals(true, $user->update_user(1, array('lastname' => 'Duval', 'age' => 30)));
         $this->assertEquals(true, $user->update_user(1, array('email' => 'hector.duval@gmail.com')));
         $this->assertEquals(null, $user->update_user(1, array('email' => 'hector.duval@yahoo')));
         $this->assertEquals(true, $user->update_user(1, array('birthday' => '1984-06-25')));
@@ -63,6 +70,9 @@ class UserTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(true, $user->update_user(1, array('firstname' => 'Paul"; TRUNCATE TABLE users')));
     }
 
+    /**
+     * Unit test that checks the method which deletes the specified user
+     */
     public function testDeleteUser() {
         $user = new User($this->db);
         $this->assertEquals(false, $user->delete_user());

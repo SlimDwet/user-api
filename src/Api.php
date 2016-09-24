@@ -14,22 +14,19 @@ class Api {
 
     /**
      * Show all users
-     * @return [type] [description]
      */
     public function get_all() {
-        $result $this->user->all_users();
+        $result = $this->user->all_users();
         if(!$result) echo json_encode(array());
             else echo json_encode($result);
     }
 
     /**
-     * Show the specified user datas
-     * @return [type] [description]
+     * Show the specified user data
      */
     public function get() {
         if(!isset($_GET['id'])) die("User's ID missing");
-        $id = $_GET['id'];
-        $result = $this->user->get_user($id);
+        $result = $this->user->get_user($_GET['id']);
         switch ($result) {
             case false:
             case null:
@@ -42,11 +39,11 @@ class Api {
     }
 
     /**
-     * Save new user
+     * Create an user
      */
     public function add() {
-        if(empty($_POST)) die("No data detected");
-        
+        if(empty($_POST)) die("No post data detected");
+
         extract($_POST);
         if(!isset($lastname)) die("User's lastname missing");
         if(!isset($firstname)) die("User's firstname missing");
@@ -63,6 +60,46 @@ class Api {
                 break;
             default:
                 echo json_encode(array('message' => "User saved with success"));
+                break;
+        }
+    }
+
+    /**
+     * Update the specified user data
+     */
+    public function update() {
+        if(!isset($_GET['id'])) die("User's ID missing");
+        if(empty($_POST)) die("No post data detected");
+
+        $result = $this->user->update_user($_GET['id'], $_POST);
+        switch ($result) {
+            case null:
+                echo json_encode(array('message' => 'User datas are invalid. Please check all fields format'));
+                break;
+            case false:
+                echo json_encode(array('message' => "An error occurend while updating user's data"));
+                break;
+            default:
+                echo json_encode(array('message' => "User updated with success"));
+                break;
+        }
+    }
+
+    /**
+     * Delete the specidied user
+     */
+    public function delete() {
+        if(!isset($_GET['id'])) die("User's ID missing");
+        $result = $this->user->delete_user($_GET['id']);
+        switch ($result) {
+            case null:
+                echo json_encode(array('message' => 'Invalid user ID'));
+                break;
+            case false:
+                echo json_encode(array('message' => "An error occurend while deleting user"));
+                break;
+            default:
+                echo json_encode(array('message' => "User deleted with success"));
                 break;
         }
     }

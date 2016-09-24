@@ -19,14 +19,14 @@ function prd($data) {
 // Database connection
 try {
     $db = ADONewConnection(DB_DRIVER);
-    $db->debug = true; // For developpement
+    // $db->debug = true; // For developpement
     $db->Connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     $db->SetFetchMode(ADODB_FETCH_ASSOC);
 } catch(Exception $e) {
     die("Error while database connection");
 }
 
-// Include API classes
+// Includes API classes
 include_once 'src/Api.php';
 include_once 'src/User.php';
 $user = new \Slimdwet\User($db);
