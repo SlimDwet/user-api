@@ -1,10 +1,11 @@
 # user-api
 An API for users datas access
 
-1 - Execute the SQL file
+1 - Execute the database_schema.sql file
 2 - composer install
+3 - Copy constants-sample.php file to constants.php and update the database informations
 
-Use this following command for unit tests:
+Use this following command for check unit tests:
 ./vendor/bin/phpunit ./tests/
 
 Authorized fields :
