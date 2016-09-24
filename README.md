@@ -1,5 +1,5 @@
 # user-api
-An API for users datas access
+An API for users data access
 
 1 - Execute the SQL file
 2 - composer install
