@@ -1,5 +1,7 @@
 <?php
 
+// Include constants
+require_once 'constants.php';
 // Include AdoDB
 require_once dirname(dirname(__FILE__)).'/adodb5/adodb.inc.php';
 require_once dirname(dirname(__FILE__)).'/adodb5/adodb-exceptions.inc.php';
@@ -13,8 +15,8 @@ class UserTest extends PHPUnit_Framework_TestCase {
     public function __construct() {
         // Database connection
         try {
-            $this->db = ADONewConnection('mysql');
-            $this->db->Connect('localhost', 'root', 'root', 'user-api');
+            $this->db = ADONewConnection(DB_DRIVER);
+            $this->db->Connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
             $this->db->SetFetchMode(ADODB_FETCH_ASSOC);
         } catch(Exception $e) {
             die("\r\nError while database connection\r\n");
