@@ -118,7 +118,7 @@ class User {
 
             // Add modified date
             $datas['modified'] = date('Y-m-d H:i:s');
-            $update_sql = $this->db->GetUpdateSQL($result_get_user, $datas);
+            $update_sql = $this->db->GetUpdateSQL($result_get_user, $datas, 'UPDATE');
             $update_result = $this->db->Execute($update_sql);
             if(!$update_result) return false;
 
